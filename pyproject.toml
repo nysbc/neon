@@ -1,0 +1,21 @@
+[project]
+name = "neon"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "cesar mena",email = "cmena@nysbc.org"}
+]
+readme = "README.md"
+requires-python = ">=3.11, <4.0"
+dependencies = [
+    "pyppms (>=3.3.0,<4.0.0)",
+    "black (>=25.1.0,<26.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "neon", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
