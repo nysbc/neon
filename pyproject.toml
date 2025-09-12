@@ -9,10 +9,15 @@ readme = "README.md"
 requires-python = ">=3.11, <4.0"
 dependencies = [
     "pyppms (>=3.3.0,<4.0.0)",
+    "python-redmine (>=2.5.0,<3.0.0)",
 ]
 
 [tool.poetry]
 packages = [{include = "neon", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.3.8"
+mypy = "^1.18.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
