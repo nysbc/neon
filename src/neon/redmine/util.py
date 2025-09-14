@@ -8,7 +8,6 @@ def custom(issue: RedmineIssue, name: str) -> Optional[str]:
     otherwise returns stripped() string"""
     if not hasattr(issue, "custom_fields"):
         return None
-    # fixme try getting rid of the type ignore
     customfields = issue.custom_fields.values()  # pyright: ignore
     for field in customfields:
         if field["name"] == name:
