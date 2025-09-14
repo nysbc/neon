@@ -1,7 +1,7 @@
 from enum import Enum, unique
 from typing import Final, Optional
 
-# field descriptors for custom fields
+# field descriptor for custom fields
 
 
 class _cf:
