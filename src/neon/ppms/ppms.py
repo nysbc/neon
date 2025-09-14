@@ -37,9 +37,9 @@ class Group:
 
 
 class Connection:
-    def __init__(self, key: str) -> None:
+    def __init__(self, url: str, key: str) -> None:
         # fixme use u.ppms.url
-        self._conn = pyppms.PpmsConnection("https://ppms.us/nysbc/pumapi/", key)
+        self._conn = pyppms.PpmsConnection(url, key)
 
     def maybe_group(self, gid: str) -> Optional[Group]:
         try:

@@ -3,7 +3,6 @@ from typing import Dict, Final, List, Tuple
 
 from redminelib.resources.standard import Issue as RedmineIssue
 
-from .. import u
 from . import fd, util
 
 
@@ -85,7 +84,7 @@ class Base:
 
     @property
     def url(self) -> str:
-        return f"{u.redmine.url}/issues/{self._issue.id}"
+        return f"issues/{self._issue.id}"
 
     def __str__(self) -> str:
         return f"{self._issue} ({self.url})"

@@ -8,8 +8,8 @@ from . import fd, o
 
 
 class Connection:
-    def __init__(self, key: str) -> None:
-        self._conn = redminelib.Redmine(u.redmine.url, key=key)
+    def __init__(self, url: str, key: str) -> None:
+        self._conn = redminelib.Redmine(url, key=key)
 
     def get(self, redmine_id: int) -> RedmineIssue:
         return self._conn.issue.get(redmine_id)
