@@ -59,7 +59,7 @@ class Base:
         return self._custom_fields[field]
 
     def _pending(self) -> Tuple[Dict[str, str], List[Dict[str, int | str]]]:
-        std: Dict[str, str] = {}  # fixme impl - is it needed?
+        std: Dict[str, str] = {}  # fixme impl?
         cf: List[Dict[str, int | str]] = []
         for k, v in self._custom_fields.items():
             if v.isdirty():
