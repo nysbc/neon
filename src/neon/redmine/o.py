@@ -30,8 +30,9 @@ class Base:
         def clean(self) -> None:
             self._dirty = False
 
-    def __init__(self, issue: RedmineIssue) -> None:
+    def __init__(self, issue: RedmineIssue, url:str="") -> None:
         self._issue = issue
+        self._url = url
         self._custom_fields: Dict[fd.cf, Base._Field] = {}
 
     def id(self) -> int:
@@ -84,7 +85,7 @@ class Base:
 
     @property
     def url(self) -> str:
-        return f"issues/{self._issue.id}"
+        return f"{self._url}/issues/{self._issue.id}"
 
     def __str__(self) -> str:
         return f"{self._issue} ({self.url})"

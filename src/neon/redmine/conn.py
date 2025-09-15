@@ -9,6 +9,7 @@ from . import fd, o
 
 class Connection:
     def __init__(self, url: str, key: str) -> None:
+        self._url = url
         self._conn = redminelib.Redmine(url, key=key)
 
     def get(self, redmine_id: int) -> RedmineIssue:
@@ -49,7 +50,7 @@ class Connection:
         )
         if not issues:
             return []
-        users = list(map(o.EmgUser, issues))
+        users = list(map(lambda issue: o.EmgUser(issue, self._url), issues))
         assert field.value.attr
         for user in users:
             if getattr(user, field.value.attr) != value:
@@ -67,7 +68,9 @@ class Connection:
         )
         if not issues:
             return []
-        projects = list(map(o.EmgProject, issues))
+        projects = list(
+            map(lambda issue: o.EmgProject(issue, self._url), issues)
+        )
         assert field.value.attr
         for p in projects:
             if getattr(p, field.value.attr) != value:
