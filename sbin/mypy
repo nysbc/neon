@@ -2,4 +2,4 @@
 set -e
 set -u
 
-poetry run mypy src
+poetry run mypy --strict src
