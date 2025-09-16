@@ -56,3 +56,6 @@ class Connection:
 
     def users_for_group(self, gid: str) -> List[pyppms.user.PpmsUser]:
         return cast(List[pyppms.user.PpmsUser], self._conn.get_group_users(gid))
+
+
+__all__ = ["Group", "Connection"]

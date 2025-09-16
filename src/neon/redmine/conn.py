@@ -120,3 +120,6 @@ class Connection:
     def close(self, *args: o.Base) -> None:
         for a in args:
             self._conn.issue.update(a.id(), status_id=5)
+
+
+__all__ = ["Connection"]
