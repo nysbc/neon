@@ -5,6 +5,8 @@ from redminelib.resources.standard import Issue as RedmineIssue
 
 from . import fd, util
 
+# fixme not all fields have been ported over to fd.cf
+
 
 class Base:
     class _Field:
@@ -30,7 +32,7 @@ class Base:
         def clean(self) -> None:
             self._dirty = False
 
-    def __init__(self, issue: RedmineIssue, url:str="") -> None:
+    def __init__(self, issue: RedmineIssue, url: str = "") -> None:
         self._issue = issue
         self._url = url
         self._custom_fields: Dict[fd.cf, Base._Field] = {}
