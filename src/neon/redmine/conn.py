@@ -3,7 +3,7 @@ from typing import Any, Dict, Generator, List, Optional
 import redminelib
 from redminelib.resources.standard import Issue as RedmineIssue
 
-from .. import u
+from . import u
 from . import fd, o
 
 
@@ -45,7 +45,7 @@ class Connection:
 
     def _emgusers_for_cf(self, field: fd.cf, value: str) -> List[o.EmgUser]:
         issues: List[RedmineIssue] = self._conn.issue.filter(
-            project_id=u.redmine.project.EmgUsers,
+            project_id=u.project.EmgUsers,
             **{field.value.search_id: value},
         )
         if not issues:
@@ -63,7 +63,7 @@ class Connection:
         self, field: fd.cf, value: str
     ) -> List[o.EmgProject]:
         issues: List[RedmineIssue] = self._conn.issue.filter(
-            project_id=u.redmine.project.EmgProjects,
+            project_id=u.project.EmgProjects,
             **{field.value.search_id: value},
         )
         if not issues:
