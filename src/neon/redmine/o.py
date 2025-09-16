@@ -44,7 +44,7 @@ class Base:
         return self.id()
 
     def __eq__(self, other: object) -> bool:
-        assert isinstance(other, EmgUser)
+        assert isinstance(other, Base)
         return self.id() == other.id()
 
     def _commit(self) -> None:
