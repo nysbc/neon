@@ -1,6 +1,10 @@
-from typing import Optional
+from typing import Any, Optional
 
 from redminelib.resources.standard import Issue as RedmineIssue
+
+
+def customfields(issue: RedmineIssue) -> Any:
+    return issue.custom_fields.values()  # pyright: ignore
 
 
 def custom(issue: RedmineIssue, name: str) -> Optional[str]:
@@ -8,8 +12,7 @@ def custom(issue: RedmineIssue, name: str) -> Optional[str]:
     otherwise returns stripped() string"""
     if not hasattr(issue, "custom_fields"):
         return None
-    customfields = issue.custom_fields.values()  # pyright: ignore
-    for field in customfields:
+    for field in customfields(issue):
         if field["name"] == name:
             v = field["value"]
             # custom fields values can be None
@@ -29,6 +32,5 @@ def mustcustom(issue: RedmineIssue, name: str) -> str:
 
 
 def prcustom(issue: RedmineIssue) -> None:
-    customfields = issue.custom_fields.values()  # pyright: ignore
-    for field in customfields:
+    for field in customfields(issue):
         print(f"{field['name']} :: {field['value']}")
