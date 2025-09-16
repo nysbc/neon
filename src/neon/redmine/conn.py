@@ -87,6 +87,7 @@ class Connection:
         return users[0]
 
     def emgusers_for_email(self, email: str) -> List[o.EmgUser]:
+        "for debugging - (primary) user emails are unique"
         users = self._emgusers_for_cf(fd.cf.PrimaryUserEmail, email)
         if not users:
             return []

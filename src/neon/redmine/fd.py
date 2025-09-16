@@ -25,9 +25,6 @@ class _cf:
         )
 
 
-# if a cf is used in conn requests it must define an attr. see note in conn.py.
-
-
 @unique
 class cf(Enum):
     FirstName = _cf(42, "First Name")
