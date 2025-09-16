@@ -3,8 +3,7 @@ from typing import Any, Dict, Generator, List, Optional
 import redminelib
 from redminelib.resources.standard import Issue as RedmineIssue
 
-from . import u
-from . import fd, o
+from . import fd, o, u
 
 
 class Connection:
