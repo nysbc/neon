@@ -40,15 +40,15 @@ class Connection:
     def __init__(self, url: str, key: str) -> None:
         self._conn = pyppms.PpmsConnection(url, key)
 
-    def maybe_group(self, gid: str) -> Optional[Group]:
+    def try_group(self, gid: str) -> Optional[Group]:
         try:
             return Group(self._conn.get_group(gid))
         except KeyError:
             return None
 
     def group(self, gid: str) -> Group:
-        if (g := self.maybe_group(gid)) is None:
-            raise Exception()
+        if (g := self.try_group(gid)) is None:
+            raise Exception(f"group with id {[gid]} cannot be found")
         return g
 
     def groups(self) -> List[str]:
