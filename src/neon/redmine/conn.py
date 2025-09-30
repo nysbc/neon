@@ -41,7 +41,7 @@ class Connection:
             yield o.EmgUser(issue, self._url)
 
     def emgprojects(self, **kw: Any) -> Generator[o.EmgProject, None, None]:
-        for issue in self.issues(u.project.EmgUsers, **kw):
+        for issue in self.issues(u.project.EmgProjects, **kw):
             yield o.EmgProject(issue, self._url)
 
     # Redmine Bug?  If a request for a cf (custom field) is made to a field
