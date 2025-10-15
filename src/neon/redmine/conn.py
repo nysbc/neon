@@ -62,7 +62,7 @@ class Connection:
         for user in users:
             if getattr(user, field.value.attr) != value:
                 raise Exception(
-                    f"{user}\n {getattr(u, field.value.attr)} != {value}"
+                    f"{user}\n {getattr(user, field.value.attr)} != {value}"
                 )
         return users
 
