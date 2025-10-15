@@ -86,6 +86,13 @@ class Connection:
                 )
         return projects
 
+    def emguser_for_ldap(self, ldap: str) -> Optional[o.EmgUser]:
+        users = self._emgusers_for_cf(fd.cf.LDAP_UserName, ldap)
+        if not users:
+            return None
+        assert len(users) == 1
+        return users[0]
+
     def emguser_for_email(self, email: str) -> Optional[o.EmgUser]:
         users = self._emgusers_for_cf(fd.cf.PrimaryUserEmail, email)
         if not users:

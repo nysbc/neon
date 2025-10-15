@@ -131,7 +131,7 @@ class EmgUser(Base):
 
     @property
     def ldap(self) -> str:
-        return util.mustcustom(self._issue, "LDAP Username")
+        return self._custom(fd.cf.LDAP_UserName).value
 
     def __str__(self) -> str:
         return f"{self.name} ({self.url})"

@@ -30,6 +30,7 @@ class cf(Enum):
     FirstName = _cf(42, "First Name")
     LabeledGridBoxes = _cf(133, "Labeled Grid Boxes")
     LastName = _cf(43, "Last Name")
+    LDAP_UserName = _cf(62, "LDAP Username", attr="ldap")
     NC_City = _cf(81, "NC-City")
     NC_LabMailingAddress = _cf(129, "NC-Lab Mailing Address")
     NC_ProjectId = _cf(74, "NC-Project ID")
