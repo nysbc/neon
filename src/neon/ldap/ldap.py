@@ -65,18 +65,18 @@ class EntryUser(User):
 
 
 class Connection:
-    def __init__(self, spec: Dict[str, str]) -> None:
+    def __init__(self, cfg: Dict[str, str]) -> None:
         self._conn = ldap3.Connection(
-            spec["LDAP_URI"],
-            spec["LDAP_BIND_DN"],
-            spec["LDAP_PASSWORD"],
+            cfg["url"],
+            cfg["bind_dn"],
+            cfg["key"],
             auto_bind=True,
         )
-        self._spec = spec
+        self._cfg = cfg
 
     def users(self) -> Generator[User, None, None]:
         entries = self._conn.extend.standard.paged_search(
-            self._spec["LDAP_USERS_OU"],
+            self._cfg["search.users"],
             "(objectClass=posixAccount)",
             attributes=User.attributes,
             paged_size=1000,
@@ -87,7 +87,7 @@ class Connection:
     def user_for_uid(self, uid: str) -> Optional[User]:
         uid = ldap3.utils.conv.escape_filter_chars(uid)
         user = self._conn.search(
-            self._spec["LDAP_USERS_OU"],
+            self._cfg["search.users"],
             f"(&(objectClass=posixAccount)(uid={uid}))",
             attributes=User.attributes,
         )
