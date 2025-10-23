@@ -1,5 +1,5 @@
 import datetime
-from typing import Dict, Final, List, Tuple
+from typing import Dict, Final, List, Tuple, cast
 
 from redminelib.resources.standard import Issue as RedmineIssue
 
@@ -41,6 +41,10 @@ class Base:
         x: Final = self._issue.id
         assert isinstance(x, int)
         return x
+
+    def closed(self) -> bool:
+        s = self._issue.status.name.lower().strip()  # pyright: ignore
+        return cast(bool, s == "closed")
 
     def __hash__(self) -> int:
         return self.id()

@@ -50,9 +50,12 @@ class Connection:
     # To prevent modifying redmine issues that do not conform to the request,
     # assert the attribute in the object returned = the requested value.
 
-    def _emgusers_for_cf(self, field: _fd.cf, value: str) -> List[o.EmgUser]:
+    def _emgusers_for_cf(
+        self, field: _fd.cf, value: str, status: str = "open"
+    ) -> List[o.EmgUser]:
         issues: List[RedmineIssue] = self._conn.issue.filter(
             project_id=_u.project.EmgUsers,
+            status_id=status,
             **{field.value.search_id: value},
         )
         if not issues:
@@ -86,8 +89,10 @@ class Connection:
                 )
         return projects
 
-    def emguser_for_ldap(self, ldap: str) -> Optional[o.EmgUser]:
-        users = self._emgusers_for_cf(_fd.cf.LDAP_UserName, ldap)
+    def emguser_for_ldap(
+        self, ldap: str, status: str = "open"
+    ) -> Optional[o.EmgUser]:
+        users = self._emgusers_for_cf(_fd.cf.LDAP_UserName, ldap, status)
         if not users:
             return None
         assert len(users) == 1
