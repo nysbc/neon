@@ -1,1 +1,1 @@
-from .ldap import *
+from ._ldap import *

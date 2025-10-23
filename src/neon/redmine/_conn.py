@@ -3,7 +3,7 @@ from typing import Any, Dict, Generator, List, Optional
 import redminelib
 from redminelib.resources.standard import Issue as RedmineIssue
 
-from . import fd, o, u
+from . import _fd, _u, o
 
 
 class Connection:
@@ -37,11 +37,11 @@ class Connection:
             kw["offset"] += limit
 
     def emgusers(self, **kw: Any) -> Generator[o.EmgUser, None, None]:
-        for issue in self.issues(u.project.EmgUsers, **kw):
+        for issue in self.issues(_u.project.EmgUsers, **kw):
             yield o.EmgUser(issue, self._url)
 
     def emgprojects(self, **kw: Any) -> Generator[o.EmgProject, None, None]:
-        for issue in self.issues(u.project.EmgProjects, **kw):
+        for issue in self.issues(_u.project.EmgProjects, **kw):
             yield o.EmgProject(issue, self._url)
 
     # Redmine Bug?  If a request for a cf (custom field) is made to a field
@@ -50,9 +50,9 @@ class Connection:
     # To prevent modifying redmine issues that do not conform to the request,
     # assert the attribute in the object returned = the requested value.
 
-    def _emgusers_for_cf(self, field: fd.cf, value: str) -> List[o.EmgUser]:
+    def _emgusers_for_cf(self, field: _fd.cf, value: str) -> List[o.EmgUser]:
         issues: List[RedmineIssue] = self._conn.issue.filter(
-            project_id=u.project.EmgUsers,
+            project_id=_u.project.EmgUsers,
             **{field.value.search_id: value},
         )
         if not issues:
@@ -67,10 +67,10 @@ class Connection:
         return users
 
     def _emgprojects_for_cf(
-        self, field: fd.cf, value: str
+        self, field: _fd.cf, value: str
     ) -> List[o.EmgProject]:
         issues: List[RedmineIssue] = self._conn.issue.filter(
-            project_id=u.project.EmgProjects,
+            project_id=_u.project.EmgProjects,
             **{field.value.search_id: value},
         )
         if not issues:
@@ -87,14 +87,14 @@ class Connection:
         return projects
 
     def emguser_for_ldap(self, ldap: str) -> Optional[o.EmgUser]:
-        users = self._emgusers_for_cf(fd.cf.LDAP_UserName, ldap)
+        users = self._emgusers_for_cf(_fd.cf.LDAP_UserName, ldap)
         if not users:
             return None
         assert len(users) == 1
         return users[0]
 
     def emguser_for_email(self, email: str) -> Optional[o.EmgUser]:
-        users = self._emgusers_for_cf(fd.cf.PrimaryUserEmail, email)
+        users = self._emgusers_for_cf(_fd.cf.PrimaryUserEmail, email)
         if not users:
             return None
         assert len(users) == 1
@@ -102,25 +102,25 @@ class Connection:
 
     def emgusers_for_email(self, email: str) -> List[o.EmgUser]:
         "for debugging - (primary) user emails are unique"
-        users = self._emgusers_for_cf(fd.cf.PrimaryUserEmail, email)
+        users = self._emgusers_for_cf(_fd.cf.PrimaryUserEmail, email)
         if not users:
             return []
         return users
 
     def emgusers_for_pi_email(self, email: str) -> List[o.EmgUser]:
-        return self._emgusers_for_cf(fd.cf.PI_Email, email)
+        return self._emgusers_for_cf(_fd.cf.PI_Email, email)
 
     def emgusers_for_ppms_group(self, group: str) -> List[o.EmgUser]:
-        return self._emgusers_for_cf(fd.cf.PPMS_Group, group)
+        return self._emgusers_for_cf(_fd.cf.PPMS_Group, group)
 
     def emgprojects_for_email(self, email: str) -> List[o.EmgProject]:
-        return self._emgprojects_for_cf(fd.cf.PrimaryUserEmail, email)
+        return self._emgprojects_for_cf(_fd.cf.PrimaryUserEmail, email)
 
     def emgprojects_for_pi_email(self, email: str) -> List[o.EmgProject]:
-        return self._emgprojects_for_cf(fd.cf.PI_Email, email)
+        return self._emgprojects_for_cf(_fd.cf.PI_Email, email)
 
     def emgprojects_for_pppms_group(self, group: str) -> List[o.EmgProject]:
-        return self._emgprojects_for_cf(fd.cf.PPMS_Group, group)
+        return self._emgprojects_for_cf(_fd.cf.PPMS_Group, group)
 
     # pylint: disable=protected-access
     def update(self, *args: o.Base) -> None:
@@ -136,4 +136,17 @@ class Connection:
             self._conn.issue.update(a.id(), status_id=5)
 
 
-__all__ = ["Connection"]
+class LazyConnection:
+    def __init__(self, url: str, key: str) -> None:
+        self._url = url
+        self._key = key
+        self._conn: Optional[Connection] = None
+
+    def __call__(self) -> Connection:
+        if self._conn:
+            return self._conn
+        self._conn = Connection(self._url, self._key)
+        return self._conn
+
+
+__all__ = ["Connection", "LazyConnection"]

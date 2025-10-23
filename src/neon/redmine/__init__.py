@@ -1,2 +1,2 @@
 from . import o
-from .conn import *
+from ._conn import *

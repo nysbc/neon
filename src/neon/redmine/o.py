@@ -3,7 +3,7 @@ from typing import Dict, Final, List, Tuple
 
 from redminelib.resources.standard import Issue as RedmineIssue
 
-from . import fd, util
+from . import _fd, util
 
 # fixme not all fields have been ported over to fd.cf
 
@@ -35,7 +35,7 @@ class Base:
     def __init__(self, issue: RedmineIssue, url: str = "") -> None:
         self._issue = issue
         self._url = url
-        self._custom_fields: Dict[fd.cf, Base._Field] = {}
+        self._custom_fields: Dict[_fd.cf, Base._Field] = {}
 
     def id(self) -> int:
         x: Final = self._issue.id
@@ -53,7 +53,7 @@ class Base:
         for f in self._custom_fields.values():
             f.clean()
 
-    def _custom(self, field: fd.cf) -> _Field:
+    def _custom(self, field: _fd.cf) -> _Field:
         if not field in self._custom_fields:
             self._custom_fields[field] = Base._Field(
                 name=field.value.name,
@@ -71,19 +71,19 @@ class Base:
 
     @property
     def email(self) -> str:
-        return self._custom(fd.cf.PrimaryUserEmail).value
+        return self._custom(_fd.cf.PrimaryUserEmail).value
 
     @email.setter
     def email(self, value: str) -> None:
-        self._custom(fd.cf.PrimaryUserEmail).value = value
+        self._custom(_fd.cf.PrimaryUserEmail).value = value
 
     @property
     def pi_email(self) -> str:
-        return self._custom(fd.cf.PI_Email).value
+        return self._custom(_fd.cf.PI_Email).value
 
     @pi_email.setter
     def pi_email(self, value: str) -> None:
-        self._custom(fd.cf.PI_Email).value = value
+        self._custom(_fd.cf.PI_Email).value = value
 
     @property
     def url(self) -> str:
@@ -99,23 +99,23 @@ class EmgUser(Base):
 
     @property
     def pi(self) -> str:
-        return self._custom(fd.cf.PI).value
+        return self._custom(_fd.cf.PI).value
 
     @pi.setter
     def pi(self, value: str) -> None:
-        self._custom(fd.cf.PI).value = value
+        self._custom(_fd.cf.PI).value = value
 
     @property
     def ppms_group(self) -> str:
-        return self._custom(fd.cf.PPMS_Group).value
+        return self._custom(_fd.cf.PPMS_Group).value
 
     @property
     def firstname(self) -> str:
-        return self._custom(fd.cf.FirstName).value
+        return self._custom(_fd.cf.FirstName).value
 
     @property
     def lastname(self) -> str:
-        return self._custom(fd.cf.LastName).value
+        return self._custom(_fd.cf.LastName).value
 
     @property
     def name(self) -> str:
@@ -123,15 +123,15 @@ class EmgUser(Base):
 
     @property
     def labeled_grid_boxes(self) -> str:
-        return self._custom(fd.cf.LabeledGridBoxes).value
+        return self._custom(_fd.cf.LabeledGridBoxes).value
 
     @labeled_grid_boxes.setter
     def labeled_grid_boxes(self, value: str) -> None:
-        self._custom(fd.cf.LabeledGridBoxes).value = value
+        self._custom(_fd.cf.LabeledGridBoxes).value = value
 
     @property
     def ldap(self) -> str:
-        return self._custom(fd.cf.LDAP_UserName).value
+        return self._custom(_fd.cf.LDAP_UserName).value
 
     def __str__(self) -> str:
         return f"{self.name} ({self.url})"
@@ -158,11 +158,11 @@ class EmgProject(Base):
 
     @property
     def nc_project_id(self) -> str:
-        return self._custom(fd.cf.NC_ProjectId).value
+        return self._custom(_fd.cf.NC_ProjectId).value
 
     @nc_project_id.setter
     def nc_project_id(self, value: str) -> None:
-        self._custom(fd.cf.NC_ProjectId).value = value
+        self._custom(_fd.cf.NC_ProjectId).value = value
 
     def __str__(self) -> str:
         return f"{self._issue} ({self.url})"
@@ -174,32 +174,32 @@ class Proposal_v2(Base):
 
     @property
     def labmailingaddress(self) -> str:
-        return self._custom(fd.cf.NC_LabMailingAddress).value
+        return self._custom(_fd.cf.NC_LabMailingAddress).value
 
     @labmailingaddress.setter
     def labmailingaddress(self, value: str) -> None:
-        self._custom(fd.cf.NC_LabMailingAddress).value = value
+        self._custom(_fd.cf.NC_LabMailingAddress).value = value
 
     @property
     def city(self) -> str:
-        return self._custom(fd.cf.NC_City).value
+        return self._custom(_fd.cf.NC_City).value
 
     @city.setter
     def city(self, value: str) -> None:
-        self._custom(fd.cf.NC_City).value = value
+        self._custom(_fd.cf.NC_City).value = value
 
     @property
     def state(self) -> str:
-        return self._custom(fd.cf.NC_State).value
+        return self._custom(_fd.cf.NC_State).value
 
     @state.setter
     def state(self, value: str) -> None:
-        self._custom(fd.cf.NC_State).value = value
+        self._custom(_fd.cf.NC_State).value = value
 
     @property
     def zip(self) -> str:
-        return self._custom(fd.cf.NC_Zip).value
+        return self._custom(_fd.cf.NC_Zip).value
 
     @zip.setter
     def zip(self, value: str) -> None:
-        self._custom(fd.cf.NC_Zip).value = value
+        self._custom(_fd.cf.NC_Zip).value = value
