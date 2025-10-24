@@ -17,6 +17,18 @@ class UserData(models.Model):
     noleginon = models.IntegerField(blank=True, null=True)
     advanced = models.IntegerField(blank=True, null=True)
 
+    def closed(self) -> bool:
+        if self.firstname and not self.firstname.startswith("x-"):
+            return False
+        if self.lastname and not self.lastname.startswith("x-"):
+            return False
+        if not self.hidden():
+            return False
+        return True
+
+    def hidden(self) -> bool:
+        return self.noleginon == 1
+
     def __str__(self) -> str:
         return self.username
 
